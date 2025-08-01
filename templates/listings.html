@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}All Listings - HomeHarbor{% endblock %}
+
+{% block content %}
+<h2>All Property Listings</h2>
+<div class="property-listing">
+  {% if properties %}
+    {% for prop in properties %}
+      <div class="property-item">
+        <h3>{{ prop[1] }} - NPR {{ "{:,.2f}".format(prop[3]) }}</h3>
+        <p>{{ prop[2] }}</p>
+        <p><strong>Location:</strong> {{ prop[4] }}</p>
+        <p><strong>Bedrooms:</strong> {{ prop[5] }}, <strong>Bathrooms:</strong> {{ prop[6] }}</p>
+        <p><strong>Area:</strong> {{ prop[7] }} sq ft</p>
+        {% if prop[8] %}
+          <img src="{{ prop[8] }}" alt="Image of {{ prop[1] }}" />
+        {% endif %}
+
+        <!-- Delete Button -->
+        <form method="POST" action="{{ url_for('delete_property', property_id=prop[0]) }}" onsubmit="return confirm('Are you sure you want to delete this listing?');">
+          <button type="submit" class="btn-delete">Delete</button>
+        </form>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No properties found.</p>
+  {% endif %}
+</div>
+{% endblock %}
